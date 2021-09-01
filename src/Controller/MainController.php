@@ -42,8 +42,11 @@ class MainController extends AbstractController
     {
         $e = new Equipe();
         $e->setNom($req->get("nom"));
+
         $em->persist($e);
         $em->flush();
+
+        $this->addFlash("plus","L'équipe ".$e->getNom()." a été créée !");
 
         return $this->redirectToRoute("accueil");
     }
@@ -61,6 +64,8 @@ class MainController extends AbstractController
         
         $em->remove($e);
         $em->flush();
+
+        $this->addFlash("moins","L'équipe ".$e->getNom()." a été effacée !");
 
         return $this->redirectToRoute("accueil");
     }
@@ -88,6 +93,8 @@ class MainController extends AbstractController
         $em->persist($p);
         $em->flush();
 
+        $this->addFlash("plus","L'utilisateur ".$p->getNom()." ".$p->getPrenom()." a rejoint l'entreprise !");
+
         return $this->redirectToRoute("accueil");
     }
 
@@ -101,6 +108,8 @@ class MainController extends AbstractController
         $em->persist($personne);
         $em->flush();
 
+        $this->addFlash("plus","L'utilisateur ".$personne->getNom()." ".$personne->getPrenom()." a rejoint l'équipe ".$equipe->getNom()." !");
+
         return $this->redirectToRoute("accueil");
     }
 
@@ -113,6 +122,8 @@ class MainController extends AbstractController
 
         $em->persist($personne);
         $em->flush();
+
+        $this->addFlash("moins","L'utilisateur ".$personne->getNom()." ".$personne->getPrenom()." a quitté l'équipe ".$equipe->getNom()." !");
 
         return $this->redirectToRoute("accueil");
     }
@@ -130,6 +141,8 @@ class MainController extends AbstractController
         
         $em->remove($p);
         $em->flush();
+
+        $this->addFlash("moins","L'utilisateur ".$p->getNom()." ".$p->getPrenom()." a quitté l'entreprise !");
 
         return $this->redirectToRoute("accueil");
     }

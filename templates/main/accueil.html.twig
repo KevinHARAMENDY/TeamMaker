@@ -55,6 +55,16 @@
 		<div class="container mt-3">
 			<div class="row">
 				<div class="col-md-8">
+					{% for message in app.flashes('plus') %}
+						<div class="flash-notice" style="background-color:#A5FC7D;padding: 20px;border-radius: 20px">
+							{{ message }}
+						</div>
+					{% endfor %}
+					{% for message in app.flashes('moins') %}
+						<div class="flash-notice" style="background-color:#FC947D;padding: 20px;border-radius: 20px">
+							{{ message }}
+						</div>
+					{% endfor %}
 					<div class="divTeam">
 						<div class="row">
 							<div class="col-6">
