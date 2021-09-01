@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mini projet Equipe de personnes</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous"/>
+
+
+		<style>
+			.divListUser,
+			.divUser {
+				background-color: #ccc;
+				padding: 20px;
+				border-radius: 20px
+			}
+			.divListUser {
+				margin-top: 20px;
+				border-radius: 20px
+			}
+
+			.divTeam {
+				background-color: #ccc;
+				padding: 20px;
+				border-radius: 20px
+			}
+			#tabListUser td {
+				height: 45px;
+				width: 120px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container mt-3">
+
+			<div class="row">
+				<div class="col-md-8">
+					<div class="divTeam">
+						<div class="row">
+							<div class="col-6">
+								<form action="{{ path('ajoutEquipe')}}" method="post">
+									<div class="row">
+										<div class="col-10"><input placeholder="Nom de l'équipe" name="nom" class="form-control"></div>
+										<div class="col-2">
+											<button type="submit" class="btn btn-success">
+												<i class="fas fa-plus"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div id="demo">
+						{% for eqs in equipes %}
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">
+											{{eqs.nom}}&nbsp;<a href="{{ path('delEquipe',{"id":eqs.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for persos in eqs.personnes %}
+									<tr>
+										<td scope="row">{{persos.nom|upper}}</td>
+										<td scope="row">{{persos.prenom}}</td>
+										<td scope="row"><a href="{{ path('delPerso',{"id":persos.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="divUser">
+						<form action="{{ path('ajoutPersonne')}}" method="post">
+							<div class="form-group">
+								<input class="form-control" placeholder="Prénom" type="text" name="prenom"/>
+							</div>
+							<div class="form-group">
+								<input class="form-control" placeholder="Nom" type="text" name="nom"/>
+							</div>
+							<div class="form-group">
+								<select class="form-control" name="team">
+									<option value="0">Pas d'Equipe</option>
+									{% for eqs in equipes %}
+										<option value="{{eqs.id}}">{{ eqs.nom }}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="form-group text-center mb-0">
+								<button class="btn btn-success btn-lg ">
+									<i class="fa fa-plus"></i>
+								</button>
+							</div>
+						</form>
+					</div>
+
+
+					<div class="divListUser">
+						<table id="tabListUser">
+							<tbody>
+								{% for per in personnes %}
+									<tr>
+										<td>{{ per.nom|upper }} {{ per.prenom }}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<!-- col4 -->
+			</div>
+			<!-- row -->
+
+		</div>
+		<!-- container -->
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+	</body>
+</html>
