@@ -53,8 +53,10 @@ class MainController extends AbstractController
      */
     public function delEquipe(Equipe $e, EntityManagerInterface $em): Response
     {
-        foreach ($e->getPersonnes() as $p) {
-            $e->removePersonne($p);
+        if (!empty($e->getPersonnes())) {
+            foreach ($e->getPersonnes() as $p) {
+                $e->removePersonne($p);
+            }
         }
         
         $em->remove($e);
