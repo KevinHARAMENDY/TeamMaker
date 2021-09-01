@@ -79,10 +79,28 @@ class MainController extends AbstractController
         $p->setPrenom($req->get("prenom"));
 
         if ($req->get("team") != 0) {
-            $equipe = $er->findBy(["id" => $req->get("team")]);
-            $p->addEquipe($equipe[0]);
+            //$equipe = $er->findBy(["id" => $req->get("team")]);
+            $equipe = $er->find( $req->get("team"));
+            $p->addEquipe($equipe);
         }
 
+        $em->persist($p);
+        $em->flush();
+
+        return $this->redirectToRoute("accueil");
+    }
+
+    /**
+     * @Route("/delPersoEquipe/{id}", name="delPersoEquipe")
+     */
+    public function delPersoEquipe(Personne $p, EntityManagerInterface $em): Response
+    {
+        if (!empty($p->getEquipes())) {
+            foreach ($p->getEquipes() as $e) {
+                $p->removeEquipe($e);
+            }
+        }
+        
         $em->persist($p);
         $em->flush();
 

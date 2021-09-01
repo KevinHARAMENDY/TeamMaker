@@ -62,7 +62,7 @@
 									<tr>
 										<td scope="row">{{persos.nom|upper}}</td>
 										<td scope="row">{{persos.prenom}}</td>
-										<td scope="row"><a href="{{ path('delPerso',{"id":persos.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
+										<td scope="row"><a href="{{ path('delPersoEquipe',{"id":persos.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
 									</tr>
 									{% endfor %}
 								</tbody>
