@@ -5,7 +5,12 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous"/>
-
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+		integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"
+		></script>
 
 		<style>
 			.divListUser,
@@ -27,8 +32,27 @@
 		</style>
 	</head>
 	<body>
-		<div class="container mt-3">
 
+		<script>
+			function allowDrop(ev) {
+				ev.preventDefault();
+			}
+
+			function drag(ev,idPerso) {
+				ev.dataTransfer.setData("idPerso", idPerso);
+			}
+
+			function drop(ev,idEquipe) {
+				ev.preventDefault();
+				let idPerso = ev.dataTransfer.getData("idPerso");
+				
+				axios.post("http://localhost/tp-equipe/public/addPersoEquipe/"+idPerso+"/"+idEquipe).then((response) => {
+					location.reload();
+              	});
+			}
+		</script>
+
+		<div class="container mt-3">
 			<div class="row">
 				<div class="col-md-8">
 					<div class="divTeam">
@@ -49,21 +73,27 @@
 					</div>
 					<div id="demo">
 						{% for eqs in equipes %}
-							<table class="table">
+							<table class="table" ondrop="drop(event, {{eqs.id}})" ondragover="allowDrop(event)">
 								<thead>
 									<tr>
 										<th scope="col">
-											{{eqs.nom}}<a href="{{ path('delEquipe',{"id":eqs.id}) }}" class="btn btn-danger btn-sm ml-2"><i class="fa fa-trash"></i></a>
+											{{eqs.nom}}<a href="{{ path('delEquipe',{"id":eqs.id}) }}" class="btn btn-danger btn-sm ml-2">
+												<i class="fa fa-trash"></i>
+											</a>
 										</th>
 									</tr>
 								</thead>
 								<tbody>
 									{% for persos in eqs.personnes %}
-									<tr>
-										<td scope="row">{{persos.nom}}</td>
-										<td scope="row">{{persos.prenom}}</td>
-										<td scope="row"><a href="{{ path('delPersoEquipe',{"id":persos.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
-									</tr>
+										<tr>
+											<td scope="row">{{persos.nom}}</td>
+											<td scope="row">{{persos.prenom}}</td>
+											<td scope="row">
+												<a href="{{ path('delPersoEquipe',{'personne':persos.id,'equipe':eqs.id}) }}" class="btn btn-danger btn-sm">
+													<i class="fa fa-trash"></i>
+												</a>
+											</td>
+										</tr>
 									{% endfor %}
 								</tbody>
 							</table>
@@ -95,14 +125,19 @@
 						</form>
 					</div>
 
-
 					<div class="divListUser">
 						<table>
 							<tbody>
 								{% for per in personnes %}
 									<tr>
-										<td>{{ per.nom }} {{ per.prenom }}</td>
-										<td><a href="{{ path('delPerso',{"id":per.id}) }}" class="btn btn-danger btn-sm ml-2"><i class="fa fa-trash"></i></a></td>
+										<td>
+										<div draggable="true" ondragstart="drag(event,{{per.id}})">{{ per.nom }} {{ per.prenom }}</div>
+										</td>
+										<td>
+											<a href="{{ path('delPerso',{"id":per.id}) }}" class="btn btn-danger btn-sm ml-2">
+												<i class="fa fa-trash"></i>
+											</a>
+										</td>
 									</tr>
 								{% endfor %}
 							</tbody>
@@ -116,9 +151,5 @@
 
 		</div>
 		<!-- container -->
-
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-
 	</body>
 </html>

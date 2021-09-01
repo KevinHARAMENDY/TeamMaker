@@ -31,7 +31,7 @@ class MainController extends AbstractController
 
 
 
-    /*********
+   /**********
     * EQUIPE *
     **********/
 
@@ -67,7 +67,7 @@ class MainController extends AbstractController
 
 
 
-    /*********
+   /**********
     * PERSO  *
     **********/
 
@@ -81,8 +81,7 @@ class MainController extends AbstractController
         $p->setPrenom(ucfirst(strtolower($req->get("prenom"))));
 
         if ($req->get("team") != 0) {
-            //$equipe = $er->findBy(["id" => $req->get("team")]);
-            $equipe = $er->find( $req->get("team"));
+            $equipe = $er->find($req->get("team"));
             $p->addEquipe($equipe);
         }
 
@@ -93,17 +92,26 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/delPersoEquipe/{id}", name="delPersoEquipe")
+     * @Route("/addPersoEquipe/{personne}/{equipe}", name="addPersoEquipe")
      */
-    public function delPersoEquipe(Personne $p, EntityManagerInterface $em): Response
+    public function addPersoEquipe(Personne $personne, Equipe $equipe, EntityManagerInterface $em): Response
     {
-        if (!empty($p->getEquipes())) {
-            foreach ($p->getEquipes() as $e) {
-                $p->removeEquipe($e);
-            }
-        }
-        
-        $em->persist($p);
+        $personne->addEquipe($equipe);
+
+        $em->persist($personne);
+        $em->flush();
+
+        return $this->redirectToRoute("accueil");
+    }
+
+    /**
+     * @Route("/delPersoEquipe/{personne}/{equipe}", name="delPersoEquipe")
+     */
+    public function delPersoEquipe(Personne $personne,Equipe $equipe, EntityManagerInterface $em): Response
+    {
+        $personne->removeEquipe($equipe);
+
+        $em->persist($personne);
         $em->flush();
 
         return $this->redirectToRoute("accueil");
