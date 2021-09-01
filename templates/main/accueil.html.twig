@@ -60,7 +60,7 @@
 								<tbody>
 									{% for persos in eqs.personnes %}
 									<tr>
-										<td scope="row">{{persos.nom|upper}}</td>
+										<td scope="row">{{persos.nom}}</td>
 										<td scope="row">{{persos.prenom}}</td>
 										<td scope="row"><a href="{{ path('delPersoEquipe',{"id":persos.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
 									</tr>
@@ -101,7 +101,8 @@
 							<tbody>
 								{% for per in personnes %}
 									<tr>
-										<td>{{ per.nom|upper }} {{ per.prenom }}<a href="{{ path('delPerso',{"id":per.id}) }}" class="btn btn-danger btn-sm ml-2"><i class="fa fa-trash"></i></a></td>
+										<td>{{ per.nom }} {{ per.prenom }}</td>
+										<td><a href="{{ path('delPerso',{"id":per.id}) }}" class="btn btn-danger btn-sm ml-2"><i class="fa fa-trash"></i></a></td>
 									</tr>
 								{% endfor %}
 							</tbody>

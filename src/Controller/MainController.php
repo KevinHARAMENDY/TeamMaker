@@ -75,8 +75,8 @@ class MainController extends AbstractController
     public function ajoutPersonne(Request $req, EntityManagerInterface $em, EquipeRepository $er): Response
     {
         $p = new Personne();
-        $p->setNom($req->get("nom"));
-        $p->setPrenom($req->get("prenom"));
+        $p->setNom(strtoupper($req->get("nom")));
+        $p->setPrenom(ucfirst(strtolower($req->get("prenom"))));
 
         if ($req->get("team") != 0) {
             //$equipe = $er->findBy(["id" => $req->get("team")]);
