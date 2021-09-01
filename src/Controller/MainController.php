@@ -94,8 +94,10 @@ class MainController extends AbstractController
      */
     public function delPerso(Personne $p, EntityManagerInterface $em): Response
     {
-        foreach ($p->getEquipes() as $e) {
-            $p->removeEquipe($e);
+        if (!empty($p->getEquipes())) {
+            foreach ($p->getEquipes() as $e) {
+                $p->removeEquipe($e);
+            }
         }
         
         $em->remove($p);
