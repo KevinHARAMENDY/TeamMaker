@@ -88,12 +88,15 @@ class MainController extends AbstractController
         if ($req->get("team") != 0) {
             $equipe = $er->find($req->get("team"));
             $p->addEquipe($equipe);
+            $this->addFlash("plus","L'utilisateur ".$p->getNom()." ".$p->getPrenom()." a rejoint l'entreprise et a intégré l'équipe ".$equipe->getNom()."!");
+        } else {
+            $this->addFlash("plus","L'utilisateur ".$p->getNom()." ".$p->getPrenom()." a rejoint l'entreprise !");
         }
 
         $em->persist($p);
         $em->flush();
 
-        $this->addFlash("plus","L'utilisateur ".$p->getNom()." ".$p->getPrenom()." a rejoint l'entreprise !");
+        
 
         return $this->redirectToRoute("accueil");
     }
@@ -110,7 +113,7 @@ class MainController extends AbstractController
 
         $this->addFlash("plus","L'utilisateur ".$personne->getNom()." ".$personne->getPrenom()." a rejoint l'équipe ".$equipe->getNom()." !");
 
-        return $this->redirectToRoute("accueil");
+        return $this->json(['info'=>'ok']);
     }
 
     /**
