@@ -24,10 +24,6 @@
 				padding: 20px;
 				border-radius: 20px
 			}
-			#tabListUser td {
-				height: 45px;
-				width: 120px;
-			}
 		</style>
 	</head>
 	<body>
@@ -57,7 +53,7 @@
 								<thead>
 									<tr>
 										<th scope="col">
-											{{eqs.nom}}&nbsp;<a href="{{ path('delEquipe',{"id":eqs.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+											{{eqs.nom}}<a href="{{ path('delEquipe',{"id":eqs.id}) }}" class="btn btn-danger btn-sm ml-2"><i class="fa fa-trash"></i></a>
 										</th>
 									</tr>
 								</thead>
@@ -101,11 +97,11 @@
 
 
 					<div class="divListUser">
-						<table id="tabListUser">
+						<table>
 							<tbody>
 								{% for per in personnes %}
 									<tr>
-										<td>{{ per.nom|upper }} {{ per.prenom }}</td>
+										<td>{{ per.nom|upper }} {{ per.prenom }}<a href="{{ path('delPerso',{"id":per.id}) }}" class="btn btn-danger btn-sm ml-2"><i class="fa fa-trash"></i></a></td>
 									</tr>
 								{% endfor %}
 							</tbody>
