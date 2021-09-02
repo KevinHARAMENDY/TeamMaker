@@ -23,7 +23,7 @@ class MainController extends AbstractController
     {
         $equipes = $er->findAll();
         $personnes = $pr->findAll();
-        return $this->render('main/accueil.html.twig', [
+        return $this->render('accueil.html.twig', [
             "equipes" => $equipes,
             "personnes" => $personnes
         ]);
